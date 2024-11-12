@@ -1,0 +1,45 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+data=pd.read_csv('D:\\datasets 5thsem\\dataset\\titanic.csv')
+##Histogram
+a_s=data[data['survived']==1]['age']
+an_s=data[data['survived']==0]['age']
+plt.hist(a_s,color='green',alpha=0.5,label="survived")
+plt.hist(an_s,color='purple',alpha=1,label="not survived")
+plt.xlabel('age')
+plt.ylabel('frequency')
+plt.title('age distribution of survived and not survived pasengers')
+plt.legend()
+plt.show()
+##bar graph
+c=data['class'].value_counts()
+col=['r','g','y']
+plt.bar(c.index,c.values,color=col,width=0.3)
+plt.xticks([0,1,2],['1stclass','2ndclass','3rdclass'])
+plt.xlabel('classes'),plt.ylabel('no.of passengers')
+plt.title("no.of passengers travled in specfic class")
+plt.show()
+##PIVOT TABLE
+d={
+"First_name":["Aryan","Rohan","Riya","Yash","Siddhant"],
+"Last_name":["Singh","Agarwal","Shah","Bhatia","Khanna"],
+"Type":["Full-Time","Itern","Full-Time","Part-Time","Full-Time"],
+"Dept":["Administration","Technical","Administration","Technical","Management"],
+'YoE':[2,3,5,7,6],"Salary":[20000,5000,10000,10000,20000]
+}
+df=pd.DataFrame(d)
+print(df)
+av=df.pivot_table(index=['Dept', 'Type'], values='Salary',aggfunc='mean') 
+print("Average Salary from ecah dept:\n",av)
+sm=df.pivot_table(index=['Type'], values='Salary', aggfunc=['sum', 'mean','count'])
+sm.columns=['Total Salary', 'Mean Salary', 'Number of Employees']
+print("\nSum and Mean of:\n",sm)
+st=df.pivot_table(values='Salary', index='Type',aggfunc='std')
+print("\nStandard Deviation:\n",st)
+sm.plot(kind='line', marker='o')
+plt.title('Sum, Mean, and Count of Salary by Employment Type')
+plt.xlabel('Employment Type')
+plt.ylabel('Values')
+plt.grid(True)
+plt.legend(loc='best')
+plt.show()
